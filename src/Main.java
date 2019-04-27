@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,10 +19,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import mysql.conexion;
+import alert.database_error;
 
 public class Main extends JFrame {
 
@@ -102,8 +111,37 @@ public class Main extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				/*Input != null*/
-				if(txtUser != null && txtPassword != null) {
-					JOptionPane.showMessageDialog(null, "Revise los campos, estan vacios.");
+				//try {
+				String data = null;
+				String usuario = txtUser.getText();
+				String password = new String (txtPassword.getPassword());
+				try {
+					if(txtUser.getText().isEmpty() || txtPassword.getText().isEmpty())
+						JOptionPane.showMessageDialog(null, "Revise los campos, estan vacios.");
+					else {
+						conexion conector = new conexion();
+						Connection connect = conector.conexion();
+						String sentencia = "SELECT * FROM user WHERE user ='"+usuario+"' AND password ='"+password+"'";
+						try {
+							Statement st = (Statement) connect.createStatement();
+							ResultSet rs = st.executeQuery(sentencia);
+							while(rs.next()) { /*Metodo para buscar la sentencia devuelve un boolean*/
+								data = rs.getString("idUser");
+							}
+							if(data == null) { /*Busca el Id y si no lo encuentra retorna null*/
+								JOptionPane.showMessageDialog(null, "No hay ningun usuario asociado.");
+							}else {
+								Home windowHome = new Home();
+								windowHome.setVisible(true);
+								dispose();
+							}
+						} catch (SQLException e) {
+							database_error window = new database_error();
+							window.setVisible(true);
+						}
+					}
+				}catch(NullPointerException errorNull) {
+					
 				}
 			}
 		});

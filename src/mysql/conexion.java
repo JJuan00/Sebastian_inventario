@@ -18,7 +18,7 @@ public class conexion {
 	Connection connect = null;
 	/*END Valores para la conexion*/
 	
-	public conexion() { /*Constructor de la conexion*/
+	public Connection conexion() { /*Constructor de la conexion*/
 		try {
 			Class.forName(driver);
 			connect = (Connection) DriverManager.getConnection(database, username, password);
@@ -27,6 +27,7 @@ public class conexion {
 			database_error window = new database_error();
 			window.setVisible(true);
 		}
+		return connect;
 	} /*END Conexion*/
 
 	public Connection getConnection() {
