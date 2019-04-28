@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -31,6 +30,10 @@ import alert.database_error;
 
 public class Main extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
@@ -109,6 +112,7 @@ public class Main extends JFrame {
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.setRequestFocusEnabled(false);
 		btnIngresar.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				/*Input != null*/
 				//try {
@@ -130,6 +134,8 @@ public class Main extends JFrame {
 							}
 							if(data == null) { /*Busca el Id y si no lo encuentra retorna null*/
 								JOptionPane.showMessageDialog(null, "No hay ningun usuario asociado.");
+								txtUser.setText("");
+								txtPassword.setText("");
 							}else {
 								Home windowHome = new Home();
 								windowHome.setVisible(true);

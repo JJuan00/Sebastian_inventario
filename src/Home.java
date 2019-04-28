@@ -4,6 +4,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.Cursor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import alert.exit;
 
 public class Home extends JFrame {
 
@@ -36,11 +43,26 @@ public class Home extends JFrame {
 	}
 	
 	public void initComponent() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 600, 410);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exit windowExit = new exit();
+				windowExit.setVisible(true);
+			}
+		});
+		btnSalir.setFocusable(false);
+		btnSalir.setFocusPainted(false);
+		btnSalir.setFocusTraversalKeysEnabled(false);
+		btnSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSalir.setBounds(501, 11, 89, 23);
+		contentPane.add(btnSalir);
 	}
 }
